@@ -1,0 +1,32 @@
+<div class="d-flex flex-column align-items-center w-100">
+  <div
+    class="bg-danger d-flex align-items-center w-100 justify-content-between py-3 px-5">
+    <p class="text-white fw-bolder fs-4">Holidays Around The World</p>
+    <mat-form-field [subscriptSizing]="'dynamic'" class="w-25">
+      <input
+        matInput
+        [formControl]="searchControl"
+        placeholder="Enter country name" />
+    </mat-form-field>
+  </div>
+  <div class="d-flex justify-content-center w-75 py-5">
+    @if (countries$ | async; as countries) {
+      @if (!countries.length) {
+        <div class="w-75 d-flex justify-content-center">
+          <p class="fs-5">No countries found matching your search term.</p>
+        </div>
+      } @else {
+        <div
+          class="row row-cols-1 row-cols-lg-5 row-cols-md-4 row-cols-sm-3 gap-3 justify-content-center w-75">
+          @for (country of countries; track country.countryCode) {
+            <a [routerLink]="['/', country.countryCode]" class="text-black">
+              {{ country.name }}
+            </a>
+          }
+        </div>
+      }
+    }
+    <mat-divider vertical class="bg-secondary bg-opacity-25 m-3"></mat-divider>
+    <app-home-country-widget></app-home-country-widget>
+  </div>
+</div>

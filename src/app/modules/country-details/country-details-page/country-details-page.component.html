@@ -1,0 +1,64 @@
+<div class="d-flex vh-100 flex-column align-items-center w-100">
+  <div
+    class="bg-danger d-flex align-items-center w-100 justify-content-between py-3 px-5">
+    <div class="d-flex gap-2 align-items-center">
+      <span
+        class="material-icons text-white fs-3 header-icon"
+        [routerLink]="['']"
+        >arrow_left</span
+      >
+      <p class="text-white fw-bolder fs-4">Holidays Around The World</p>
+    </div>
+    <mat-form-field [subscriptSizing]="'dynamic'">
+      <mat-label>Year</mat-label>
+      <mat-select
+        [formControl]="yearSelect"
+        (selectionChange)="onYearChange($event.value)">
+        @for (year of years; track year) {
+          <mat-option [value]="year">{{ year }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+  @if (country$ | async; as country) {
+    <div class="py-5 w-100 d-flex flex-column align-items-center">
+      <div class="d-flex gap-1 fs-5 mb-2">
+        <p>Upcoming Holidays in</p>
+        <p class="fw-bolder">{{ country.countryName }}</p>
+      </div>
+      <div class="px-3 w-100">
+        <table
+          mat-table
+          [dataSource]="country.holidaysInfo"
+          class="mat-elevation-z8 shadow-none w-100">
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef class="fs-5">Date</th>
+            <td mat-cell *matCellDef="let element" class="fs-6">
+              {{ element.date }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="holiday">
+            <th mat-header-cell *matHeaderCellDef class="fs-5">Holiday</th>
+            <td mat-cell *matCellDef="let element" class="fs-6">
+              {{ element.name }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef class="fs-5">Type</th>
+            <td mat-cell *matCellDef="let element" class="fs-6">
+              {{ element.types }}
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="columnsId"></tr>
+          <tr mat-row *matRowDef="let row; columns: columnsId"></tr>
+        </table>
+      </div>
+    </div>
+  }
+  @if (hasError) {
+    <div class="h-100 d-flex align-items-center">
+      <p class="fs-5">Something went wrong, please try again</p>
+      <span class="material-icons">sentiment_dissatisfied</span>
+    </div>
+  }
+</div>

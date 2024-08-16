@@ -1,0 +1,22 @@
+<div class="flex-column">
+  @if (randomCountries$ | async; as randomCountries) {
+    <p class="fw-bolder fs-5 mb-2">Suggested countries:</p>
+    <div class="d-flex flex-column gap-2">
+      @for (country of randomCountries; track country.countryName) {
+        <div>
+          <a
+            [routerLink]="['/', country.countryCode]"
+            class="fw-bolder text-black">
+            {{ country.countryName }}
+          </a>
+          <div class="d-flex gap-1">
+            <p class="fw-bolder text-danger text-break holiday-name">
+              {{ country.holidaysInfo[0].name }}
+            </p>
+            <p>{{ country.holidaysInfo[0].date }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
